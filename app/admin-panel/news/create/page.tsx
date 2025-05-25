@@ -14,7 +14,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { AlertCircle, ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
-import AuthGuard from "@/components/auth-guard"
 
 export default function CreateNewsPage() {
   const [title, setTitle] = useState("")
@@ -60,7 +59,6 @@ export default function CreateNewsPage() {
   }
 
   return (
-    <AuthGuard requiredRoles={["owner", "admin"]}>
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8">
           <Link href="/admin-panel/news" className="flex items-center text-muted-foreground hover:text-foreground mb-6">
@@ -148,6 +146,5 @@ export default function CreateNewsPage() {
           </Card>
         </div>
       </div>
-    </AuthGuard>
   )
 }
