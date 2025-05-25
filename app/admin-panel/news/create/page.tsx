@@ -38,7 +38,6 @@ export default function CreateNewsPage() {
         summary,
         content,
         author,
-        category,
         image_url: imageUrl || null,
         published_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
@@ -114,16 +113,16 @@ export default function CreateNewsPage() {
                       <Input id="author" value={author} onChange={(e) => setAuthor(e.target.value)} required />
                     </div>
 
-
-                  <div className="space-y-2">
-                    <Label htmlFor="imageUrl">URL изображения (необязательно)</Label>
-                    <Input
-                      id="imageUrl"
-                      type="url"
-                      placeholder="https://example.com/image.jpg"
-                      value={imageUrl}
-                      onChange={(e) => setImageUrl(e.target.value)}
-                    />
+                    <div className="space-y-2">
+                      <Label htmlFor="imageUrl">URL изображения (необязательно)</Label>
+                      <Input
+                        id="imageUrl"
+                        type="url"
+                        placeholder="https://example.com/image.jpg"
+                        value={imageUrl}
+                        onChange={(e) => setImageUrl(e.target.value)}
+                      />
+                    </div>
                   </div>
                 </div>
               </CardContent>
