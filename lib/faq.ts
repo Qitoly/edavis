@@ -1,7 +1,10 @@
 import type { Faq } from "@/types/faq"
 import { createClient } from "@/lib/supabase/client"
 
+let allFaqsCache: Faq[] | null = null
+
 export async function getAllFaqs(): Promise<Faq[]> {
+  if (allFaqsCache) return allFaqsCache
   try {
     const supabase = createClient()
 
@@ -12,19 +15,22 @@ export async function getAllFaqs(): Promise<Faq[]> {
 
     if (error) {
       console.error("Error fetching faq:", error)
-      return getMockFaqs()
+      allFaqsCache = getMockFaqs()
+      return allFaqsCache
     }
 
-    return data.map((item: any) => ({
+    allFaqsCache = data.map((item: any) => ({
       id: item.id,
       question: item.question,
       answer: item.answer,
       createdAt: new Date(item.created_at),
       updatedAt: new Date(item.updated_at),
     })) as Faq[]
+    return allFaqsCache
   } catch (error) {
     console.error("Error fetching faq:", error)
-    return getMockFaqs()
+    allFaqsCache = getMockFaqs()
+    return allFaqsCache
   }
 }
 

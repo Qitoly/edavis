@@ -1,6 +1,8 @@
 import type { News } from "@/types/news"
 import { createClient } from "@/lib/supabase/client"
 
+let allNewsCache: News[] | null = null
+
 export async function getLatestNews(limit = 5): Promise<News[]> {
   try {
     const supabase = createClient()
@@ -64,18 +66,23 @@ export async function getNewsById(id: string): Promise<News | null> {
 }
 
 export async function getAllNews(): Promise<News[]> {
+  if (allNewsCache) return allNewsCache
   try {
     const supabase = createClient()
 
-    const { data, error } = await supabase.from("news").select("*").order("published_at", { ascending: false })
+    const { data, error } = await supabase
+      .from("news")
+      .select("*")
+      .order("published_at", { ascending: false })
 
     if (error) {
       console.error("Error fetching all news:", error)
-      return getMockNews()
+      allNewsCache = getMockNews()
+      return allNewsCache
     }
 
     // Преобразуем snake_case из БД в camelCase
-    return data.map((item) => ({
+    allNewsCache = data.map((item) => ({
       id: item.id,
       title: item.title,
       summary: item.summary,
@@ -86,9 +93,11 @@ export async function getAllNews(): Promise<News[]> {
       imageUrl: item.image_url,
       category: item.category,
     })) as News[]
+    return allNewsCache
   } catch (error) {
     console.error("Error fetching all news:", error)
-    return getMockNews()
+    allNewsCache = getMockNews()
+    return allNewsCache
   }
 }
 

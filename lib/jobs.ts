@@ -1,6 +1,8 @@
 import type { Job } from "@/types/job"
 import { createClient } from "@/lib/supabase/client"
 
+let allJobsCache: Job[] | null = null
+
 export async function getLatestJobs(limit = 5): Promise<Job[]> {
   try {
     const supabase = createClient()
@@ -42,20 +44,27 @@ export async function getJobById(id: string): Promise<Job | null> {
 }
 
 export async function getAllJobs(): Promise<Job[]> {
+  if (allJobsCache) return allJobsCache
   try {
     const supabase = createClient()
 
-    const { data, error } = await supabase.from("jobs").select("*").order("published_at", { ascending: false })
+    const { data, error } = await supabase
+      .from("jobs")
+      .select("*")
+      .order("published_at", { ascending: false })
 
     if (error) {
       console.error("Error fetching all jobs:", error)
-      return getMockJobs()
+      allJobsCache = getMockJobs()
+      return allJobsCache
     }
 
-    return data as Job[]
+    allJobsCache = data as Job[]
+    return allJobsCache
   } catch (error) {
     console.error("Error fetching all jobs:", error)
-    return getMockJobs()
+    allJobsCache = getMockJobs()
+    return allJobsCache
   }
 }
 
