@@ -15,13 +15,7 @@ import Link from "next/link"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
-interface EditServicePageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function EditServicePage({ params }: EditServicePageProps) {
+export default function EditServicePage({ params }: any) {
   const { id } = params
   const [service, setService] = useState<any>(null)
   const [title, setTitle] = useState("")
@@ -31,6 +25,7 @@ export default function EditServicePage({ params }: EditServicePageProps) {
   const [procedure, setProcedure] = useState("")
   const [department, setDepartment] = useState("")
   const [cost, setCost] = useState("")
+  const [applyUrl, setApplyUrl] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -57,6 +52,7 @@ export default function EditServicePage({ params }: EditServicePageProps) {
         setProcedure(data.procedure || "")
         setDepartment(data.department || "")
         setCost(data.cost || "")
+        setApplyUrl(data.apply_url || "")
       } catch (error) {
         console.error("Error:", error)
         setError("Произошла ошибка при загрузке услуги")
@@ -84,10 +80,11 @@ export default function EditServicePage({ params }: EditServicePageProps) {
           duration,
           requirements,
           procedure,
-          department,
-          cost,
-          updated_at: new Date().toISOString(),
-        })
+        department,
+        cost,
+        apply_url: applyUrl || null,
+        updated_at: new Date().toISOString(),
+      })
         .eq("id", id)
 
       if (error) {
@@ -187,11 +184,20 @@ export default function EditServicePage({ params }: EditServicePageProps) {
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="cost">Стоимость</Label>
-                      <Input id="cost" type="text" value={cost} onChange={(e) => setCost(e.target.value)} required />
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="cost">Стоимость</Label>
+                    <Input id="cost" type="text" value={cost} onChange={(e) => setCost(e.target.value)} required />
                   </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="applyUrl">Ссылка для онлайн-заявления</Label>
+                    <Input
+                      id="applyUrl"
+                      type="url"
+                      value={applyUrl}
+                      onChange={(e) => setApplyUrl(e.target.value)}
+                    />
+                  </div>
+                </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="duration">Срок оказания услуги</Label>
