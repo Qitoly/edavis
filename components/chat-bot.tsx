@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils"
 
 type Message = {
   id: string
-  content: React.ReactNode
+  content: string
   role: "user" | "assistant"
   timestamp: Date
 }
@@ -40,10 +40,11 @@ export default function ChatBot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
-  const handleSendMessage = async (e: React.FormEvent) => {
+  const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault()
     if (!input.trim()) return
 
+    // Add user message
     const userMessage: Message = {
       id: Date.now().toString(),
       content: input,
@@ -54,81 +55,27 @@ export default function ChatBot() {
     setMessages((prev) => [...prev, userMessage])
     setInput("")
 
-    // temporary typing message
-    const typingId = `typing-${Date.now()}`
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: typingId,
-        content: "Ищу информацию...",
+    // Simulate bot response
+    setTimeout(() => {
+      const botResponses = [
+        "Я могу помочь вам найти нужную услугу или информацию на портале E-Davis.",
+        "Для получения этой услуги вам необходимо заполнить форму в разделе 'Услуги'.",
+        "Информацию о вакансиях вы можете найти в соответствующем разделе.",
+        "Если у вас остались вопросы, вы можете обратиться в службу поддержки.",
+        "На портале E-Davis вы можете получить более 100 различных услуг онлайн.",
+      ]
+
+      const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)]
+
+      const botMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: randomResponse,
         role: "assistant",
         timestamp: new Date(),
-      },
-    ])
+      }
 
-    try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(userMessage.content.toString())}`)
-      const data = await res.json()
-
-      let hasResults = data.services.length || data.news.length || data.jobs.length
-      let content: React.ReactNode = hasResults ? (
-        <div className="space-y-2">
-          <p>Вот что я нашел:</p>
-          {data.services.length > 0 && (
-            <div>
-              <p className="font-medium">Услуги:</p>
-              <ul className="list-disc list-inside">
-                {data.services.map((s: any) => (
-                  <li key={s.id}>{s.title}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {data.news.length > 0 && (
-            <div>
-              <p className="font-medium">Новости:</p>
-              <ul className="list-disc list-inside">
-                {data.news.map((n: any) => (
-                  <li key={n.id}>{n.title}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {data.jobs.length > 0 && (
-            <div>
-              <p className="font-medium">Вакансии:</p>
-              <ul className="list-disc list-inside">
-                {data.jobs.map((j: any) => (
-                  <li key={j.id}>{j.title}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      ) : (
-        "К сожалению, ничего не найдено."
-      )
-
-      setMessages((prev) => [
-        ...prev.filter((m) => m.id !== typingId),
-        {
-          id: Date.now().toString(),
-          content,
-          role: "assistant",
-          timestamp: new Date(),
-        },
-      ])
-    } catch (err) {
-      setMessages((prev) => [
-        ...prev.filter((m) => m.id !== typingId),
-        {
-          id: Date.now().toString(),
-          content: "Произошла ошибка при поиске.",
-          role: "assistant",
-          timestamp: new Date(),
-        },
-      ])
-    }
+      setMessages((prev) => [...prev, botMessage])
+    }, 1000)
   }
 
   return (
@@ -172,7 +119,7 @@ export default function ChatBot() {
                     <div
                       key={message.id}
                       className={cn(
-                        "flex items-start gap-3 animate-in fade-in-0 slide-in-from-bottom-2",
+                        "flex items-start gap-3",
                         message.role === "user" ? "justify-end" : "justify-start",
                       )}
                     >
