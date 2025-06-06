@@ -15,6 +15,7 @@ export async function getPopularServices(): Promise<Service[]> {
     return data.map((item: any) => ({
       ...item,
       applyUrl: item.apply_url ?? null,
+      centers: item.centers ?? [],
     })) as Service[]
   } catch (error) {
     console.error("Error fetching popular services:", error)
@@ -38,6 +39,7 @@ export async function getServiceById(id: string): Promise<Service | null> {
     return {
       ...data,
       applyUrl: data.apply_url ?? null,
+      centers: data.centers ?? [],
     } as Service
   } catch (error) {
     console.error(`Error fetching service with id ${id}:`, error)
@@ -59,6 +61,7 @@ export async function getAllServices(): Promise<Service[]> {
     return data.map((item: any) => ({
       ...item,
       applyUrl: item.apply_url ?? null,
+      centers: item.centers ?? [],
     })) as Service[]
   } catch (error) {
     console.error("Error fetching all services:", error)
@@ -79,6 +82,7 @@ function getMockPopularServices(): Service[] {
       department: "Департамент внутренних дел",
       cost: "1000",
       applyUrl: "https://example.com/apply-passport",
+      centers: [],
       views: 1500,
       createdAt: new Date("2023-01-15"),
       updatedAt: new Date("2023-06-20"),
@@ -93,6 +97,7 @@ function getMockPopularServices(): Service[] {
       department: "Департамент экономического развития",
       cost: "5000",
       applyUrl: "https://example.com/apply-business",
+      centers: [],
       views: 1200,
       createdAt: new Date("2023-02-10"),
       updatedAt: new Date("2023-07-15"),
@@ -107,6 +112,7 @@ function getMockPopularServices(): Service[] {
       department: "Департамент транспорта",
       cost: "2000",
       applyUrl: "https://example.com/apply-license",
+      centers: [],
       views: 1000,
       createdAt: new Date("2023-03-05"),
       updatedAt: new Date("2023-08-10"),
@@ -121,6 +127,7 @@ function getMockPopularServices(): Service[] {
       department: "Департамент имущественных отношений",
       cost: "3000",
       applyUrl: "https://example.com/apply-property",
+      centers: [],
       views: 900,
       createdAt: new Date("2023-04-20"),
       updatedAt: new Date("2023-09-05"),
@@ -141,6 +148,7 @@ function getMockServices(): Service[] {
       department: "Департамент строительства",
       cost: "10000",
       applyUrl: "https://example.com/apply-building",
+      centers: [],
       views: 800,
       createdAt: new Date("2023-05-15"),
       updatedAt: new Date("2023-10-01"),
@@ -155,6 +163,7 @@ function getMockServices(): Service[] {
       department: "Департамент ЗАГС",
       cost: "500",
       applyUrl: "https://example.com/apply-marriage",
+      centers: [],
       views: 700,
       createdAt: new Date("2023-06-10"),
       updatedAt: new Date("2023-11-05"),

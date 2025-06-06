@@ -28,6 +28,7 @@ export default function EditServicePage({ params }: any) {
   const [department, setDepartment] = useState("")
   const [cost, setCost] = useState("")
   const [applyUrl, setApplyUrl] = useState("")
+  const [centers, setCenters] = useState<string[]>(["", "", ""])
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -58,6 +59,11 @@ export default function EditServicePage({ params }: any) {
         setDepartment(data.department || "")
         setCost(data.cost || "")
         setApplyUrl(data.apply_url || "")
+        setCenters(
+          data.centers && Array.isArray(data.centers)
+            ? [data.centers[0] || "", data.centers[1] || "", data.centers[2] || ""]
+            : ["", "", ""]
+        )
 
       } catch (error: any) {
         console.error(
@@ -92,6 +98,7 @@ export default function EditServicePage({ params }: any) {
           procedure,
         department,
         cost,
+        centers: centers.filter((c) => c.trim().length > 0),
         apply_url: applyUrl || null,
         updated_at: new Date().toISOString(),
       })
@@ -206,6 +213,36 @@ export default function EditServicePage({ params }: any) {
                       type="url"
                       value={applyUrl}
                       onChange={(e) => setApplyUrl(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="center1">Центр 1</Label>
+                    <Input
+                      id="center1"
+                      value={centers[0]}
+                      onChange={(e) =>
+                        setCenters([e.target.value, centers[1], centers[2]])
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="center2">Центр 2 (необязательно)</Label>
+                    <Input
+                      id="center2"
+                      value={centers[1]}
+                      onChange={(e) =>
+                        setCenters([centers[0], e.target.value, centers[2]])
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="center3">Центр 3 (необязательно)</Label>
+                    <Input
+                      id="center3"
+                      value={centers[2]}
+                      onChange={(e) =>
+                        setCenters([centers[0], centers[1], e.target.value])
+                      }
                     />
                   </div>
                 </div>
