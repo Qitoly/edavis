@@ -5,6 +5,7 @@ import ServiceCard from "@/components/service-card"
 import Image from "next/image"
 import { useState, useRef, type FormEvent } from "react"
 import Link from "next/link"
+import { searchSite } from "@/lib/search"
 
 type Message = {
   text: string
@@ -18,27 +19,38 @@ function ChatComponent() {
   const [inputValue, setInputValue] = useState("")
   const [chatHeight, setChatHeight] = useState(300)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!inputValue.trim()) return
 
-    // Добавляем сообщение пользователя
-    const newMessages = [...messages, { text: inputValue, isUser: true }]
+    const userText = inputValue
+
+    const newMessages = [...messages, { text: userText, isUser: true }]
     setMessages(newMessages)
     setInputValue("")
 
-    // Увеличиваем высоту чата при необходимости
     if (newMessages.length > 3 && chatHeight < 500) {
       setChatHeight((prev) => prev + 50)
     }
 
-    // Имитация ответа бота
-    setTimeout(() => {
-      setMessages((prev) => [...prev, { text: "Спасибо за ваше сообщение! Чем еще я могу помочь?", isUser: false }])
-      // Прокрутка вниз
+    setLoading(true)
+    try {
+      const results = await searchSite(userText)
+      const answer =
+        results.length > 0
+          ? `Вот что я нашел:\n- ${results.slice(0, 5).join("\n- ")}`
+          : "К сожалению, я ничего не нашел."
+
+      setMessages((prev) => [...prev, { text: answer, isUser: false }])
+    } catch (error) {
+      console.error("chat search error", error)
+      setMessages((prev) => [...prev, { text: "Произошла ошибка при поиске", isUser: false }])
+    } finally {
+      setLoading(false)
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-    }, 1000)
+    }
   }
 
   return (
@@ -73,11 +85,17 @@ function ChatComponent() {
               key={index}
               className={`${
                 msg.isUser ? "bg-blue-600 text-white ml-auto" : "bg-gray-100 text-gray-800 mr-auto"
-              } rounded-lg p-3 max-w-[80%]`}
+              } rounded-lg p-3 max-w-[80%] animate-in fade-in slide-in-from-bottom-2`}
             >
               <p className="text-sm">{msg.text}</p>
             </div>
           ))}
+          {loading && (
+            <div className="flex items-center gap-2 text-gray-500 text-sm">
+              <span>Поиск...</span>
+              <div className="h-4 w-4 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+            </div>
+          )}
           <div ref={messagesEndRef} />
         </div>
 

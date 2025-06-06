@@ -1,5 +1,11 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js"
 
+// Use a global variable so hot reloads don't create extra clients
+declare global {
+  // eslint-disable-next-line no-var
+  var __supabaseClient: ReturnType<typeof createSupabaseClient> | undefined
+}
+
 export function createClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -50,5 +56,13 @@ export function createClient() {
     } as any
   }
 
+  if (typeof window !== "undefined") {
+    if (!globalThis.__supabaseClient) {
+      globalThis.__supabaseClient = createSupabaseClient(supabaseUrl, supabaseKey)
+    }
+    return globalThis.__supabaseClient
+  }
+
+  // On the server we can create a new client per request
   return createSupabaseClient(supabaseUrl, supabaseKey)
 }
