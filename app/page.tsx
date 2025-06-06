@@ -27,6 +27,7 @@ function ChatComponent() {
 
     const userText = inputValue
 
+
     const newMessages = [...messages, { text: userText, isUser: true }]
     setMessages(newMessages)
     setInputValue("")
@@ -36,6 +37,7 @@ function ChatComponent() {
     }
 
     setLoading(true)
+
     try {
       const results = await searchSite(userText)
       const answer =
