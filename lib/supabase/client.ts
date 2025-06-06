@@ -6,6 +6,7 @@ declare global {
   var __supabaseClient: ReturnType<typeof createSupabaseClient> | undefined
 }
 
+
 export function createClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -65,4 +66,5 @@ export function createClient() {
 
   // On the server we can create a new client per request
   return createSupabaseClient(supabaseUrl, supabaseKey)
+
 }

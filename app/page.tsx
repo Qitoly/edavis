@@ -36,6 +36,7 @@ function ChatComponent() {
     }
 
     setLoading(true)
+
     try {
       const results = await searchSite(userText)
       const answer =
