@@ -16,7 +16,9 @@ import { updateUser, getUserById } from "../../actions"
 import { useToast } from "@/hooks/use-toast"
 
 export default function EditUserPage({ params }: any) {
+
   const { id } = use(params) as { id: string }
+
   const [user, setUser] = useState<any>(null)
   const [name, setName] = useState("")
   const [role, setRole] = useState("")

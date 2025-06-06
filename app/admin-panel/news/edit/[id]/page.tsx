@@ -17,7 +17,9 @@ import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
 export default function EditNewsPage({ params }: any) {
+
   const { id } = use(params) as { id: string }
+
   const [title, setTitle] = useState("")
   const [summary, setSummary] = useState("")
   const [content, setContent] = useState("")

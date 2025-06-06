@@ -17,7 +17,9 @@ import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
 export default function EditJobPage({ params }: any) {
+
   const { id } = use(params) as { id: string }
+
   const [title, setTitle] = useState("")
   const [department, setDepartment] = useState("")
   const [location, setLocation] = useState("")

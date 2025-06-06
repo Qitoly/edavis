@@ -16,7 +16,9 @@ import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
 export default function EditServicePage({ params }: any) {
+
   const { id } = use(params) as { id: string }
+
   const [service, setService] = useState<any>(null)
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -56,11 +58,13 @@ export default function EditServicePage({ params }: any) {
         setDepartment(data.department || "")
         setCost(data.cost || "")
         setApplyUrl(data.apply_url || "")
+
       } catch (error: any) {
         console.error(
           "Error fetching service:",
           error?.message || error
         )
+
         setError("Произошла ошибка при загрузке услуги")
       } finally {
         setLoading(false)
