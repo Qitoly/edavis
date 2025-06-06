@@ -15,13 +15,7 @@ import AuthGuard from "@/components/auth-guard"
 import { updateUser, getUserById } from "../../actions"
 import { useToast } from "@/hooks/use-toast"
 
-interface EditUserPageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function EditUserPage({ params }: EditUserPageProps) {
+export default function EditUserPage({ params }: any) {
   const [user, setUser] = useState<any>(null)
   const [name, setName] = useState("")
   const [role, setRole] = useState("")

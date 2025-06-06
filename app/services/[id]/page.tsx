@@ -6,14 +6,9 @@ import { Separator } from "@/components/ui/separator"
 import { Clock, FileText, Building, DollarSign, FileCheck, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { getServiceById } from "@/lib/services"
+import { getPortalSettings } from "@/lib/settings"
 
-interface ServicePageProps {
-  params: {
-    id: string
-  }
-}
-
-export async function generateMetadata({ params }: ServicePageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const service = await getServiceById(params.id)
 
   if (!service) {
@@ -28,8 +23,9 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
   }
 }
 
-export default async function ServicePage({ params }: ServicePageProps) {
+export default async function ServicePage({ params }: { params: { id: string } }) {
   const service = await getServiceById(params.id)
+  const settings = await getPortalSettings()
 
   if (!service) {
     notFound()
@@ -109,9 +105,15 @@ export default async function ServicePage({ params }: ServicePageProps) {
               <CardDescription>Выберите удобный способ получения услуги</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button className="w-full">Подать заявление онлайн</Button>
-              <Button variant="outline" className="w-full">
-                Задать вопрос
+              <Button asChild className="w-full">
+                <Link href={service.applyUrl ?? "#"} target="_blank" rel="noopener noreferrer">
+                  Подать заявление онлайн
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="w-full">
+                <Link href={settings?.question_link ?? "#"} target="_blank" rel="noopener noreferrer">
+                  Задать вопрос
+                </Link>
               </Button>
 
               <div className="pt-4">
