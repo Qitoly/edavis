@@ -1,5 +1,8 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js"
 
+// Keep a single instance to avoid GoTrue warnings in the browser
+let browserClient: ReturnType<typeof createSupabaseClient> | null = null
+
 export function createClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -50,5 +53,8 @@ export function createClient() {
     } as any
   }
 
-  return createSupabaseClient(supabaseUrl, supabaseKey)
+  if (browserClient) return browserClient
+
+  browserClient = createSupabaseClient(supabaseUrl, supabaseKey)
+  return browserClient
 }
