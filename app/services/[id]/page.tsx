@@ -116,19 +116,19 @@ export default async function ServicePage({ params }: { params: { id: string } }
                 </Link>
               </Button>
 
-              <div className="pt-4">
-                <h4 className="font-medium mb-2">Центры оказания услуги</h4>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-start gap-2">
-                    <FileCheck className="h-4 w-4 text-muted-foreground mt-0.5" />
-                    <span>Адрес больки лс</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <FileCheck className="h-4 w-4 text-muted-foreground mt-0.5" />
-                    <span>Адрес больки сш</span>
-                  </li>
-                </ul>
-              </div>
+              {service.centers.length > 0 && (
+                <div className="pt-4">
+                  <h4 className="font-medium mb-2">Центры оказания услуги</h4>
+                  <ul className="space-y-2 text-sm">
+                    {service.centers.map((center, idx) => (
+                      <li key={idx} className="flex items-start gap-2">
+                        <FileCheck className="h-4 w-4 text-muted-foreground mt-0.5" />
+                        <span>{center}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>

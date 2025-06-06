@@ -24,6 +24,7 @@ export default function CreateServicePage() {
   const [department, setDepartment] = useState("")
   const [cost, setCost] = useState("")
   const [applyUrl, setApplyUrl] = useState("")
+  const [centers, setCenters] = useState<string[]>(["", "", ""])
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
@@ -44,6 +45,7 @@ export default function CreateServicePage() {
         procedure,
         department,
         cost,
+        centers: centers.filter((c) => c.trim().length > 0),
         apply_url: applyUrl || null,
         views: 0,
         created_at: new Date().toISOString(),
@@ -129,6 +131,36 @@ export default function CreateServicePage() {
                       type="url"
                       value={applyUrl}
                       onChange={(e) => setApplyUrl(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="center1">Центр 1</Label>
+                    <Input
+                      id="center1"
+                      value={centers[0]}
+                      onChange={(e) =>
+                        setCenters([e.target.value, centers[1], centers[2]])
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="center2">Центр 2 (необязательно)</Label>
+                    <Input
+                      id="center2"
+                      value={centers[1]}
+                      onChange={(e) =>
+                        setCenters([centers[0], e.target.value, centers[2]])
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="center3">Центр 3 (необязательно)</Label>
+                    <Input
+                      id="center3"
+                      value={centers[2]}
+                      onChange={(e) =>
+                        setCenters([centers[0], centers[1], e.target.value])
+                      }
                     />
                   </div>
                 </div>

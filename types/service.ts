@@ -8,6 +8,7 @@ export interface Service {
   department: string
   cost: string
   applyUrl?: string
+  centers: string[]
   views: number
   createdAt: Date
   updatedAt: Date
