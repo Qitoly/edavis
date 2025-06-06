@@ -27,28 +27,30 @@ function ChatComponent() {
 
     const userText = inputValue
 
-    // Добавляем сообщение пользователя
     const newMessages = [...messages, { text: userText, isUser: true }]
     setMessages(newMessages)
     setInputValue("")
 
-    // Увеличиваем высоту чата при необходимости
     if (newMessages.length > 3 && chatHeight < 500) {
       setChatHeight((prev) => prev + 50)
     }
 
     setLoading(true)
-    const results = await searchSite(userText)
-    setLoading(false)
+    try {
+      const results = await searchSite(userText)
+      const answer =
+        results.length > 0
+          ? `Вот что я нашел:\n- ${results.slice(0, 5).join("\n- ")}`
+          : "К сожалению, я ничего не нашел."
 
-    const answer =
-      results.length > 0
-        ? `Вот что я нашел:\n- ${results.slice(0, 5).join("\n- ")}`
-        : "К сожалению, я ничего не нашел."
-
-    setMessages((prev) => [...prev, { text: answer, isUser: false }])
-    // Прокрутка вниз
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+      setMessages((prev) => [...prev, { text: answer, isUser: false }])
+    } catch (error) {
+      console.error("chat search error", error)
+      setMessages((prev) => [...prev, { text: "Произошла ошибка при поиске", isUser: false }])
+    } finally {
+      setLoading(false)
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
   }
 
   return (
