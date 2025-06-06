@@ -55,12 +55,11 @@ function ChatComponent() {
   }
 
   return (
-    <div className="relative w-96 transition-all duration-300">
+    <div className="w-96 transition-all duration-300">
       <div
-        className="bg-white rounded-lg p-4 shadow-lg border border-gray-200 mb-4 relative"
+        className="bg-slate-800 text-white rounded-xl p-4 shadow-lg mb-4"
         style={{ maxHeight: `${chatHeight}px` }}
       >
-        <div className="absolute bottom-0 right-4 w-4 h-4 bg-white transform rotate-45 translate-y-2"></div>
 
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-bold text-lg flex items-center">
@@ -85,7 +84,7 @@ function ChatComponent() {
             <div
               key={index}
               className={`${
-                msg.isUser ? "bg-blue-600 text-white ml-auto" : "bg-gray-100 text-gray-800 mr-auto"
+                msg.isUser ? "bg-blue-600 text-white ml-auto" : "bg-slate-700 text-white mr-auto"
               } rounded-lg p-3 max-w-[80%] animate-in fade-in slide-in-from-bottom-2`}
             >
               <p className="text-sm">{msg.text}</p>
@@ -106,7 +105,7 @@ function ChatComponent() {
             placeholder="Введите сообщение..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className="flex-1 border rounded-l-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="flex-1 bg-slate-900 border border-slate-700 text-white rounded-l-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
           <button
             type="submit"
@@ -130,26 +129,26 @@ export default async function Home() {
   const popularServices = await getPopularServices()
 
   return (
-    <div className="min-h-screen bg-[#e6f0fa]">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-8">
         {/* Hero Section */}
         <section className="py-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
             <div>
-              <h1 className="text-4xl md:text-5xl font-bold text-[#2d3748] leading-tight mb-6">
+              <h1 className="text-white text-5xl font-bold drop-shadow-md mb-6">
                 Добро пожаловать
                 <br />
                 на портал услуг штата
                 <br />
                 Davis
               </h1>
-              <p className="text-xl text-gray-600 mb-8">Все нужное теперь на одном портале</p>
+              <p className="text-slate-300 text-lg mb-8">Все нужное теперь на одном портале</p>
             </div>
             <div className="relative flex justify-start">
               <ChatComponent />
 
               <div className="flex justify-start mt-4">
-                <div className="pointer-events-none">
+                <div className="pointer-events-none drop-shadow-2xl">
                   <Image src="/images/robot-assistant.svg" alt="Виртуальный помощник" width={300} height={300} />
                 </div>
               </div>
@@ -158,18 +157,17 @@ export default async function Home() {
         </section>
       </div>
 
-      {/* White background section starting from middle of service icons */}
-      <div className="bg-white pt-20 pb-12 -mt-16">
+      <div className="pt-20 pb-12 -mt-16">
         <div className="container mx-auto px-4">
           {/* Service Categories */}
           <section className="grid grid-cols-1 md:grid-cols-3 gap-6 -mt-32">
             <Link
               href="/services"
-              className="block bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow"
+              className="bg-gradient-to-br from-blue-700 to-purple-700 text-white p-6 rounded-xl shadow-xl hover:scale-105 transition-transform duration-300 hover:ring-2 hover:ring-blue-300 text-center"
             >
-              <div className="w-20 h-20 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <div className="mb-4">
                 <svg
-                  className="text-white h-10 w-10"
+                  className="w-12 h-12 mx-auto"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -183,16 +181,16 @@ export default async function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-medium text-[#2d3748]">Услуги</h3>
+              <h3 className="text-xl font-bold drop-shadow">Услуги</h3>
             </Link>
 
             <Link
               href="/jobs"
-              className="block bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow"
+              className="bg-gradient-to-br from-blue-700 to-purple-700 text-white p-6 rounded-xl shadow-xl hover:scale-105 transition-transform duration-300 hover:ring-2 hover:ring-blue-300 text-center"
             >
-              <div className="w-20 h-20 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <div className="mb-4">
                 <svg
-                  className="text-white h-10 w-10"
+                  className="w-12 h-12 mx-auto"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -213,16 +211,16 @@ export default async function Home() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-medium text-[#2d3748]">Вакансии</h3>
+              <h3 className="text-xl font-bold drop-shadow">Вакансии</h3>
             </Link>
 
             <Link
               href="/faq"
-              className="block bg-white rounded-lg p-6 text-center shadow-sm hover:shadow-md transition-shadow"
+              className="bg-gradient-to-br from-blue-700 to-purple-700 text-white p-6 rounded-xl shadow-xl hover:scale-105 transition-transform duration-300 hover:ring-2 hover:ring-blue-300 text-center"
             >
-              <div className="w-20 h-20 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+              <div className="mb-4">
                 <svg
-                  className="text-white h-10 w-10"
+                  className="w-12 h-12 mx-auto"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -244,15 +242,15 @@ export default async function Home() {
                 </svg>
               </div>
               <div className="text-center">
-                <p className="text-lg text-[#2d3748]">Часто задаваемые</p>
-                <p className="text-lg text-[#2d3748]">вопросы!</p>
+                <p className="text-lg">Часто задаваемые</p>
+                <p className="text-lg">вопросы!</p>
               </div>
             </Link>
           </section>
 
           {/* Popular Services */}
           <section className="py-12">
-            <h2 className="text-2xl font-bold text-[#2d3748] mb-6">Популярные услуги</h2>
+            <h2 className="text-2xl font-bold text-white mb-6 drop-shadow">Популярные услуги</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {popularServices.slice(0, 4).map((service) => (
                 <ServiceCard key={service.id} service={service} />
