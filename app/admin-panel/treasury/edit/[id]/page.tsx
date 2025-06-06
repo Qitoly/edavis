@@ -8,13 +8,7 @@ export const metadata: Metadata = {
   description: "Редактирование записи о состоянии казны",
 }
 
-interface EditTreasuryPageProps {
-  params: {
-    id: string
-  }
-}
-
-export default async function EditTreasuryPage({ params }: EditTreasuryPageProps) {
+export default async function EditTreasuryPage({ params }: any) {
   const id = Number.parseInt(params.id)
 
   if (isNaN(id)) {

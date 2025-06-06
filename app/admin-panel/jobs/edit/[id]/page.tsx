@@ -16,13 +16,7 @@ import Link from "next/link"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
-interface EditJobPageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function EditJobPage({ params }: EditJobPageProps) {
+export default function EditJobPage({ params }: any) {
   const { id } = params
   const [title, setTitle] = useState("")
   const [department, setDepartment] = useState("")

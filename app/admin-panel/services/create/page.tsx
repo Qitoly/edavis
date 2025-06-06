@@ -23,6 +23,7 @@ export default function CreateServicePage() {
   const [procedure, setProcedure] = useState("")
   const [department, setDepartment] = useState("")
   const [cost, setCost] = useState("")
+  const [applyUrl, setApplyUrl] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
@@ -43,6 +44,7 @@ export default function CreateServicePage() {
         procedure,
         department,
         cost,
+        apply_url: applyUrl || null,
         views: 0,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
@@ -116,11 +118,20 @@ export default function CreateServicePage() {
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="cost">Стоимость</Label>
-                      <Input id="cost" type="text" value={cost} onChange={(e) => setCost(e.target.value)} required />
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="cost">Стоимость</Label>
+                    <Input id="cost" type="text" value={cost} onChange={(e) => setCost(e.target.value)} required />
                   </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="applyUrl">Ссылка для онлайн-заявления</Label>
+                    <Input
+                      id="applyUrl"
+                      type="url"
+                      value={applyUrl}
+                      onChange={(e) => setApplyUrl(e.target.value)}
+                    />
+                  </div>
+                </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="duration">Срок оказания услуги</Label>

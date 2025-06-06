@@ -16,13 +16,7 @@ import Link from "next/link"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
-interface EditNewsPageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function EditNewsPage({ params }: EditNewsPageProps) {
+export default function EditNewsPage({ params }: any) {
   const { id } = params
   const [title, setTitle] = useState("")
   const [summary, setSummary] = useState("")
