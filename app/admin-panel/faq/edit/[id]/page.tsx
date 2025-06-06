@@ -13,6 +13,7 @@ import Link from "next/link"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
+
 export default function EditFaqPage({ params }: { params: { id: string } }) {
   const { id } = params
   const [question, setQuestion] = useState("")

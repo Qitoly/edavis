@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -17,7 +17,9 @@ import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
 export default function EditNewsPage({ params }: any) {
-  const { id } = params
+
+  const { id } = use(params) as { id: string }
+
   const [title, setTitle] = useState("")
   const [summary, setSummary] = useState("")
   const [content, setContent] = useState("")
@@ -36,7 +38,10 @@ export default function EditNewsPage({ params }: any) {
         const { data, error } = await supabase.from("news").select("*").eq("id", id).single()
 
         if (error) {
-          console.error("Error fetching news:", error)
+          console.error(
+            "Error fetching news:",
+            error?.message || error
+          )
           setError("Новость не найдена")
           return
         }
@@ -46,8 +51,11 @@ export default function EditNewsPage({ params }: any) {
         setContent(data.content || "")
         setAuthor(data.author || "")
         setImageUrl(data.image_url || "")
-      } catch (error) {
-        console.error("Error:", error)
+      } catch (error: any) {
+        console.error(
+          "Error fetching news:",
+          error?.message || error
+        )
         setError("Произошла ошибка при загрузке новости")
       } finally {
         setLoading(false)
@@ -85,8 +93,9 @@ export default function EditNewsPage({ params }: any) {
       router.push("/admin-panel/news")
       router.refresh()
     } catch (error: any) {
-      console.error("Error updating news:", error)
-      setError(error.message || "Произошла ошибка при обновлении новости")
+      const message = error?.message || "Произошла ошибка при обновлении новости"
+      console.error("Error updating news:", message)
+      setError(message)
     } finally {
       setIsSubmitting(false)
     }

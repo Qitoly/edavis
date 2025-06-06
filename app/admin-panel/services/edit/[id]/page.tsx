@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,7 +16,9 @@ import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
 export default function EditServicePage({ params }: any) {
-  const { id } = params
+
+  const { id } = use(params) as { id: string }
+
   const [service, setService] = useState<any>(null)
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -39,7 +41,10 @@ export default function EditServicePage({ params }: any) {
         const { data, error } = await supabase.from("services").select("*").eq("id", id).single()
 
         if (error) {
-          console.error("Error fetching service:", error)
+          console.error(
+            "Error fetching service:",
+            error?.message || error
+          )
           setError("Услуга не найдена")
           return
         }
@@ -53,8 +58,13 @@ export default function EditServicePage({ params }: any) {
         setDepartment(data.department || "")
         setCost(data.cost || "")
         setApplyUrl(data.apply_url || "")
-      } catch (error) {
-        console.error("Error:", error)
+
+      } catch (error: any) {
+        console.error(
+          "Error fetching service:",
+          error?.message || error
+        )
+
         setError("Произошла ошибка при загрузке услуги")
       } finally {
         setLoading(false)
@@ -94,8 +104,9 @@ export default function EditServicePage({ params }: any) {
       router.push("/admin-panel/services")
       router.refresh()
     } catch (error: any) {
-      console.error("Error updating service:", error)
-      setError(error.message || "Произошла ошибка при обновлении услуги")
+      const message = error?.message || "Произошла ошибка при обновлении услуги"
+      console.error("Error updating service:", message)
+      setError(message)
     } finally {
       setIsSubmitting(false)
     }

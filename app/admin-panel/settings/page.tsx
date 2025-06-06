@@ -55,14 +55,23 @@ export default function PortalSettingsPage() {
     try {
       const supabase = getSupabaseClient()
       const { error } = await supabase.from("portal_settings").upsert(
-        { id: 1, question_link: questionLink, updated_at: new Date().toISOString() },
+
+        {
+          id: 1,
+          question_link: questionLink,
+          updated_at: new Date().toISOString(),
+        },
+
         { onConflict: "id" }
       )
 
       if (error) throw error
     } catch (e: any) {
-      console.error("Error updating settings:", e)
-      setError(e.message || "Не удалось сохранить настройки")
+
+      const message = e?.message || "Не удалось сохранить настройки"
+      console.error("Error updating settings:", message)
+      setError(message)
+
     } finally {
       setIsSubmitting(false)
     }

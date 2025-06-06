@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { use, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -16,6 +16,9 @@ import { updateUser, getUserById } from "../../actions"
 import { useToast } from "@/hooks/use-toast"
 
 export default function EditUserPage({ params }: any) {
+
+  const { id } = use(params) as { id: string }
+
   const [user, setUser] = useState<any>(null)
   const [name, setName] = useState("")
   const [role, setRole] = useState("")
@@ -28,7 +31,7 @@ export default function EditUserPage({ params }: any) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData = await getUserById(params.id)
+        const userData = await getUserById(id)
         if (userData) {
           setUser(userData)
           setName(userData.name || "")
@@ -44,7 +47,7 @@ export default function EditUserPage({ params }: any) {
     }
 
     fetchUser()
-  }, [params.id])
+  }, [id])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -56,7 +59,7 @@ export default function EditUserPage({ params }: any) {
       formData.append("name", name)
       formData.append("role", role)
 
-      const result = await updateUser(params.id, formData)
+      const result = await updateUser(id, formData)
 
       if (result.error) {
         setError(result.error)
@@ -82,8 +85,9 @@ export default function EditUserPage({ params }: any) {
         }, 1000)
       }
     } catch (error: any) {
-      console.error("Error updating user:", error)
-      const errorMessage = error.message || "Произошла ошибка при обновлении пользователя"
+      const errorMessage =
+        error?.message || "Произошла ошибка при обновлении пользователя"
+      console.error("Error updating user:", errorMessage)
       setError(errorMessage)
       toast({
         title: "Ошибка",

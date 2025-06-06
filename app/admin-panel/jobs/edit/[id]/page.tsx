@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -17,7 +17,9 @@ import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
 export default function EditJobPage({ params }: any) {
-  const { id } = params
+
+  const { id } = use(params) as { id: string }
+
   const [title, setTitle] = useState("")
   const [department, setDepartment] = useState("")
   const [location, setLocation] = useState("")
@@ -38,7 +40,10 @@ export default function EditJobPage({ params }: any) {
         const { data, error } = await supabase.from("jobs").select("*").eq("id", id).single()
 
         if (error) {
-          console.error("Error fetching job:", error)
+          console.error(
+            "Error fetching job:",
+            error?.message || error
+          )
           setError("Вакансия не найдена")
           return
         }
@@ -52,8 +57,11 @@ export default function EditJobPage({ params }: any) {
         setType(data.type || "Полная занятость")
 
 
-      } catch (error) {
-        console.error("Error:", error)
+      } catch (error: any) {
+        console.error(
+          "Error fetching job:",
+          error?.message || error
+        )
         setError("Произошла ошибка при загрузке вакансии")
       } finally {
         setLoading(false)
@@ -92,8 +100,9 @@ export default function EditJobPage({ params }: any) {
       router.push("/admin-panel/jobs")
       router.refresh()
     } catch (error: any) {
-      console.error("Error updating job:", error)
-      setError(error.message || "Произошла ошибка при обновлении вакансии")
+      const message = error?.message || "Произошла ошибка при обновлении вакансии"
+      console.error("Error updating job:", message)
+      setError(message)
     } finally {
       setIsSubmitting(false)
     }
