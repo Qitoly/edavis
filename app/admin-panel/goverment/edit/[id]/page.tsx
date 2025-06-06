@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { use, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
@@ -15,14 +15,9 @@ import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import type { GovernmentMemberFormData } from "@/types/government-member"
 import AuthGuard from "@/components/auth-guard"
 
-interface EditGovernmentMemberPageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function EditGovernmentMemberPage({ params }: EditGovernmentMemberPageProps) {
-  const id = Number.parseInt(params.id)
+export default function EditGovernmentMemberPage({ params }: any) {
+  const { id: idStr } = use(params) as { id: string }
+  const id = Number.parseInt(idStr)
   const router = useRouter()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(true)
@@ -57,7 +52,10 @@ export default function EditGovernmentMemberPage({ params }: EditGovernmentMembe
           })
         }
       } catch (error: any) {
-        console.error("Error fetching government member:", error)
+        console.error(
+          "Error fetching government member:",
+          error?.message || error
+        )
         toast({
           title: "Ошибка",
           description: error.message || "Не удалось загрузить данные члена правительства",
@@ -108,10 +106,13 @@ export default function EditGovernmentMemberPage({ params }: EditGovernmentMembe
       router.push("/admin-panel/government")
       router.refresh()
     } catch (error: any) {
-      console.error("Error updating government member:", error)
+      const message =
+        error?.message ||
+        "Не удалось обновить информацию о члене правительства"
+      console.error("Error updating government member:", message)
       toast({
         title: "Ошибка",
-        description: error.message || "Не удалось обновить информацию о члене правительства",
+        description: message,
         variant: "destructive",
       })
     } finally {

@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -15,14 +15,8 @@ import Link from "next/link"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
-interface EditServicePageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function EditServicePage({ params }: EditServicePageProps) {
-  const { id } = params
+export default function EditServicePage({ params }: any) {
+  const { id } = use(params) as { id: string }
   const [service, setService] = useState<any>(null)
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -31,6 +25,7 @@ export default function EditServicePage({ params }: EditServicePageProps) {
   const [procedure, setProcedure] = useState("")
   const [department, setDepartment] = useState("")
   const [cost, setCost] = useState("")
+  const [applyUrl, setApplyUrl] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -44,7 +39,10 @@ export default function EditServicePage({ params }: EditServicePageProps) {
         const { data, error } = await supabase.from("services").select("*").eq("id", id).single()
 
         if (error) {
-          console.error("Error fetching service:", error)
+          console.error(
+            "Error fetching service:",
+            error?.message || error
+          )
           setError("Услуга не найдена")
           return
         }
@@ -57,8 +55,12 @@ export default function EditServicePage({ params }: EditServicePageProps) {
         setProcedure(data.procedure || "")
         setDepartment(data.department || "")
         setCost(data.cost || "")
-      } catch (error) {
-        console.error("Error:", error)
+        setApplyUrl(data.apply_url || "")
+      } catch (error: any) {
+        console.error(
+          "Error fetching service:",
+          error?.message || error
+        )
         setError("Произошла ошибка при загрузке услуги")
       } finally {
         setLoading(false)
@@ -84,10 +86,11 @@ export default function EditServicePage({ params }: EditServicePageProps) {
           duration,
           requirements,
           procedure,
-          department,
-          cost,
-          updated_at: new Date().toISOString(),
-        })
+        department,
+        cost,
+        apply_url: applyUrl || null,
+        updated_at: new Date().toISOString(),
+      })
         .eq("id", id)
 
       if (error) {
@@ -97,8 +100,9 @@ export default function EditServicePage({ params }: EditServicePageProps) {
       router.push("/admin-panel/services")
       router.refresh()
     } catch (error: any) {
-      console.error("Error updating service:", error)
-      setError(error.message || "Произошла ошибка при обновлении услуги")
+      const message = error?.message || "Произошла ошибка при обновлении услуги"
+      console.error("Error updating service:", message)
+      setError(message)
     } finally {
       setIsSubmitting(false)
     }
@@ -187,11 +191,20 @@ export default function EditServicePage({ params }: EditServicePageProps) {
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="cost">Стоимость</Label>
-                      <Input id="cost" type="text" value={cost} onChange={(e) => setCost(e.target.value)} required />
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="cost">Стоимость</Label>
+                    <Input id="cost" type="text" value={cost} onChange={(e) => setCost(e.target.value)} required />
                   </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="applyUrl">Ссылка для онлайн-заявления</Label>
+                    <Input
+                      id="applyUrl"
+                      type="url"
+                      value={applyUrl}
+                      onChange={(e) => setApplyUrl(e.target.value)}
+                    />
+                  </div>
+                </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="duration">Срок оказания услуги</Label>
