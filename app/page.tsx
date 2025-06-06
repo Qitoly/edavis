@@ -27,7 +27,6 @@ function ChatComponent() {
 
     const userText = inputValue
 
-
     const newMessages = [...messages, { text: userText, isUser: true }]
     setMessages(newMessages)
     setInputValue("")

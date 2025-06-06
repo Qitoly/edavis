@@ -1,22 +1,12 @@
 import type { Service } from "@/types/service"
 import { createClient } from "@/lib/supabase/client"
 
+let allServicesCache: Service[] | null = null
+
 export async function getPopularServices(): Promise<Service[]> {
   try {
-    const supabase = createClient()
-
-    const { data, error } = await supabase.from("services").select("*").order("views", { ascending: false }).limit(4)
-
-    if (error) {
-      console.error("Error fetching popular services:", error)
-      return getMockPopularServices()
-    }
-
-    return data.map((item: any) => ({
-      ...item,
-      applyUrl: item.apply_url ?? null,
-      centers: item.centers ?? [],
-    })) as Service[]
+    const all = await getAllServices()
+    return all.sort((a, b) => b.views - a.views).slice(0, 4)
   } catch (error) {
     console.error("Error fetching popular services:", error)
     return getMockPopularServices()
@@ -48,24 +38,31 @@ export async function getServiceById(id: string): Promise<Service | null> {
 }
 
 export async function getAllServices(): Promise<Service[]> {
+  if (allServicesCache) return allServicesCache
   try {
     const supabase = createClient()
 
-    const { data, error } = await supabase.from("services").select("*").order("title", { ascending: true })
+    const { data, error } = await supabase
+      .from("services")
+      .select("*")
+      .order("title", { ascending: true })
 
     if (error) {
       console.error("Error fetching all services:", error)
-      return getMockServices()
+      allServicesCache = getMockServices()
+      return allServicesCache
     }
 
-    return data.map((item: any) => ({
+    allServicesCache = data.map((item: any) => ({
       ...item,
       applyUrl: item.apply_url ?? null,
       centers: item.centers ?? [],
     })) as Service[]
+    return allServicesCache
   } catch (error) {
     console.error("Error fetching all services:", error)
-    return getMockServices()
+    allServicesCache = getMockServices()
+    return allServicesCache
   }
 }
 

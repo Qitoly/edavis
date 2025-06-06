@@ -1,7 +1,11 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js"
 
-// Keep a single instance to avoid GoTrue warnings in the browser
-let browserClient: ReturnType<typeof createSupabaseClient> | null = null
+// Use a global variable so hot reloads don't create extra clients
+declare global {
+  // eslint-disable-next-line no-var
+  var __supabaseClient: ReturnType<typeof createSupabaseClient> | undefined
+}
+
 
 export function createClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -53,8 +57,14 @@ export function createClient() {
     } as any
   }
 
-  if (browserClient) return browserClient
+  if (typeof window !== "undefined") {
+    if (!globalThis.__supabaseClient) {
+      globalThis.__supabaseClient = createSupabaseClient(supabaseUrl, supabaseKey)
+    }
+    return globalThis.__supabaseClient
+  }
 
-  browserClient = createSupabaseClient(supabaseUrl, supabaseKey)
-  return browserClient
+  // On the server we can create a new client per request
+  return createSupabaseClient(supabaseUrl, supabaseKey)
+
 }
