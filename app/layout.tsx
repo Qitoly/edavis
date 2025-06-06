@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body>
+      <body className="bg-gradient-to-br from-slate-900 to-purple-900 text-white min-h-screen">
         <Header />
         <main>{children}</main>
         <Footer />

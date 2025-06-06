@@ -1,6 +1,4 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, Clock, FileText } from "lucide-react"
+import { ArrowRight, FileText } from "lucide-react"
 import Link from "next/link"
 import type { Service } from "@/types/service"
 
@@ -10,24 +8,19 @@ interface ServiceCardProps {
 
 export default function ServiceCard({ service }: ServiceCardProps) {
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader className="flex flex-row items-start gap-4 pb-2">
-        <div className="p-2 bg-primary/10 rounded-md">
-          <FileText className="h-5 w-5 text-primary" />
+    <div className="bg-gradient-to-br from-blue-700 to-purple-700 text-white p-6 rounded-xl shadow-xl hover:scale-105 transition-transform duration-300 hover:ring-2 hover:ring-blue-300 flex flex-col">
+      <div className="flex items-start gap-4 pb-4">
+        <FileText className="w-12 h-12" />
+        <div>
+          <h3 className="text-xl font-bold drop-shadow mb-2">{service.title}</h3>
+          <p className="text-sm text-slate-200 line-clamp-2">{service.description}</p>
         </div>
-        <div className="grid gap-1">
-          <CardTitle className="text-lg">{service.title}</CardTitle>
-          <CardDescription className="line-clamp-2">{service.description}</CardDescription>
-        </div>
-      </CardHeader>
-
-      <CardFooter className="mt-auto pt-2">
-        <Button asChild variant="ghost" className="w-full justify-between">
-          <Link href={`/services/${service.id}`}>
-            Подробнее <ArrowRight className="h-4 w-4" />
-          </Link>
-        </Button>
-      </CardFooter>
-    </Card>
+      </div>
+      <div className="mt-auto pt-4">
+        <Link href={`/services/${service.id}`} className="underline flex items-center gap-1 hover:text-blue-300">
+          Подробнее <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+    </div>
   )
 }
