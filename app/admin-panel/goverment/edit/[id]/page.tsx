@@ -15,13 +15,7 @@ import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import type { GovernmentMemberFormData } from "@/types/government-member"
 import AuthGuard from "@/components/auth-guard"
 
-interface EditGovernmentMemberPageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function EditGovernmentMemberPage({ params }: EditGovernmentMemberPageProps) {
+export default function EditGovernmentMemberPage({ params }: any) {
   const id = Number.parseInt(params.id)
   const router = useRouter()
   const { toast } = useToast()

@@ -7,6 +7,7 @@ export interface Service {
   procedure: string
   department: string
   cost: string
+  applyUrl?: string
   views: number
   createdAt: Date
   updatedAt: Date
