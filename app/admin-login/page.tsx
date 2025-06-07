@@ -53,7 +53,7 @@ export default function AdminLoginPage() {
       }
 
       // Если у пользователя есть роль админа, модератора или владельца
-      if (["admin", "moderator", "owner"].includes(profileData.role)) {
+      if (["admin", "moderator", "owner"].includes(profileData.role as string)) {
         // Перенаправляем на админ-панель
         router.push("/admin-panel")
       } else {
