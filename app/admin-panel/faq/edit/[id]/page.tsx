@@ -20,19 +20,13 @@ import { AlertCircle, ArrowLeft, Loader2 } from "lucide-react"
 import AuthGuard from "@/components/auth-guard"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 
-interface EditFaqPageProps {
-  params: {
-    id: string
-  }
-}
-
-export default function EditFaqPage({ params }: EditFaqPageProps) {
+export default function EditFaqPage({ params }: { params: { id: string } }) {
   const { id } = params
-  const [question, setQuestion] = useState<string>("")
-  const [answer, setAnswer] = useState<string>("")
+  const [question, setQuestion] = useState("")
+  const [answer, setAnswer] = useState("")
   const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
+  const [loading, setLoading] = useState(true)
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
