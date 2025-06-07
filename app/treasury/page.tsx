@@ -28,10 +28,10 @@ export default async function TreasuryPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">Состояние и динамика казны</h1>
+      <h1 className="text-3xl font-bold text-white drop-shadow mb-6">Состояние и динамика казны</h1>
 
       <div className="grid gap-6 md:grid-cols-2 mb-6">
-        <Card>
+        <Card className="bg-gradient-to-br from-blue-700 to-purple-700 text-white shadow-xl">
           <CardHeader>
             <CardTitle>Текущее состояние казны</CardTitle>
             <CardDescription>
@@ -50,12 +50,12 @@ export default async function TreasuryPage() {
               </div>
             )}
             {currentTreasury?.comment && (
-              <div className="mt-4 text-sm text-muted-foreground">{currentTreasury.comment}</div>
+              <div className="mt-4 text-sm text-slate-300">{currentTreasury.comment}</div>
             )}
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-gradient-to-br from-blue-700 to-purple-700 text-white shadow-xl">
           <CardHeader>
             <CardTitle>Статистика</CardTitle>
             <CardDescription>Основные показатели</CardDescription>
@@ -63,23 +63,23 @@ export default async function TreasuryPage() {
           <CardContent>
             <dl className="grid grid-cols-2 gap-4">
               <div>
-                <dt className="text-sm font-medium text-muted-foreground">Всего записей</dt>
+                <dt className="text-sm font-medium text-slate-300">Всего записей</dt>
                 <dd className="text-2xl font-bold">{treasuryData.length}</dd>
               </div>
               {treasuryData.length > 0 && (
                 <>
                   <div>
-                    <dt className="text-sm font-medium text-muted-foreground">Первая запись</dt>
+                    <dt className="text-sm font-medium text-slate-300">Первая запись</dt>
                     <dd className="text-2xl font-bold">{new Date(treasuryData[0].date).toLocaleDateString("ru-RU")}</dd>
                   </div>
                   <div>
-                    <dt className="text-sm font-medium text-muted-foreground">Минимальная сумма</dt>
+                    <dt className="text-sm font-medium text-slate-300">Минимальная сумма</dt>
                     <dd className="text-2xl font-bold">
                       {Math.min(...treasuryData.map((entry) => entry.amount)).toLocaleString("ru-RU")} $
                     </dd>
                   </div>
                   <div>
-                    <dt className="text-sm font-medium text-muted-foreground">Максимальная сумма</dt>
+                    <dt className="text-sm font-medium text-slate-300">Максимальная сумма</dt>
                     <dd className="text-2xl font-bold">
                       {Math.max(...treasuryData.map((entry) => entry.amount)).toLocaleString("ru-RU")} $
                     </dd>
@@ -91,7 +91,7 @@ export default async function TreasuryPage() {
         </Card>
       </div>
 
-      <Card className="mb-6">
+      <Card className="mb-6 bg-gradient-to-br from-blue-700 to-purple-700 text-white shadow-xl">
         <CardHeader>
           <CardTitle>Динамика казны</CardTitle>
           <CardDescription>Изменение суммы в казне по дням</CardDescription>
@@ -101,7 +101,7 @@ export default async function TreasuryPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="bg-gradient-to-br from-blue-700 to-purple-700 text-white shadow-xl">
         <CardHeader>
           <CardTitle>История изменений</CardTitle>
           <CardDescription>Все записи о состоянии казны</CardDescription>
