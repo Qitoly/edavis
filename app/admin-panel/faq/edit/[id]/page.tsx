@@ -20,7 +20,7 @@ import { AlertCircle, ArrowLeft, Loader2 } from "lucide-react"
 import AuthGuard from "@/components/auth-guard"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 
-export default function EditFaqPage({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
   const { id } = params
   const [question, setQuestion] = useState("")
   const [answer, setAnswer] = useState("")
@@ -73,11 +73,7 @@ export default function EditFaqPage({ params }: { params: { id: string } }) {
 
       const { error } = await supabase
         .from("faq")
-        .update({
-          question,
-          answer,
-          updated_at: new Date().toISOString(),
-        })
+        .update({ question, answer, updated_at: new Date().toISOString() })
         .eq("id", id)
 
       if (error) {
@@ -106,10 +102,7 @@ export default function EditFaqPage({ params }: { params: { id: string } }) {
     return (
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8">
-          <Link
-            href="/admin-panel/faq"
-            className="flex items-center text-muted-foreground hover:text-foreground mb-6"
-          >
+          <Link href="/admin-panel/faq" className="flex items-center text-muted-foreground hover:text-foreground mb-6">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Назад к списку вопросов
           </Link>
@@ -127,10 +120,7 @@ export default function EditFaqPage({ params }: { params: { id: string } }) {
     <AuthGuard requiredRoles={["owner", "admin"]}>
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8">
-          <Link
-            href="/admin-panel/faq"
-            className="flex items-center text-muted-foreground hover:text-foreground mb-6"
-          >
+          <Link href="/admin-panel/faq" className="flex items-center text-muted-foreground hover:text-foreground mb-6">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Назад к списку вопросов
           </Link>
@@ -151,23 +141,12 @@ export default function EditFaqPage({ params }: { params: { id: string } }) {
 
                 <div className="space-y-2">
                   <Label htmlFor="question">Вопрос</Label>
-                  <Input
-                    id="question"
-                    value={question}
-                    onChange={(e) => setQuestion(e.target.value)}
-                    required
-                  />
+                  <Input id="question" value={question} onChange={(e) => setQuestion(e.target.value)} required />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="answer">Ответ</Label>
-                  <Textarea
-                    id="answer"
-                    rows={5}
-                    value={answer}
-                    onChange={(e) => setAnswer(e.target.value)}
-                    required
-                  />
+                  <Textarea id="answer" rows={5} value={answer} onChange={(e) => setAnswer(e.target.value)} required />
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between">
