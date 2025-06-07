@@ -34,14 +34,9 @@ export default function Page({ params }: any) {
       try {
         const supabase = getSupabaseClient()
 
-        interface FaqRecord {
-          question: string
-          answer: string
-        }
-
         const { data, error } = await supabase
-          .from<FaqRecord>("faq")
-          .select("question, answer")
+          .from("faq")
+          .select<{ question: string; answer: string }>("question, answer")
           .eq("id", id)
           .single()
 
