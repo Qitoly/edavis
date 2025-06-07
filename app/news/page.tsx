@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -34,14 +33,14 @@ export default async function NewsPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Новости</h1>
-          <p className="text-muted-foreground">Актуальные новости и события E-Davis</p>
+          <h1 className="text-3xl font-bold text-white drop-shadow mb-2">Новости</h1>
+          <p className="text-slate-300">Актуальные новости и события E-Davis</p>
         </div>
 
       </div>
 
       <Tabs defaultValue="all" className="w-full">
-        <TabsList className="mb-8 flex flex-wrap h-auto">
+        <TabsList className="mb-8 flex flex-wrap h-auto bg-slate-800/50 rounded-lg p-1">
           <TabsTrigger value="all">Все новости</TabsTrigger>
           {categories.map((category) => (
             <TabsTrigger key={category} value={category}>
@@ -53,7 +52,10 @@ export default async function NewsPage() {
         <TabsContent value="all">
           <div className="grid grid-cols-1 gap-8">
             {news.map((item) => (
-              <Card key={item.id} className="overflow-hidden">
+              <div
+                key={item.id}
+                className="bg-gradient-to-br from-blue-700 to-purple-700 text-white rounded-xl shadow-xl overflow-hidden hover:scale-105 transition-transform duration-300 hover:ring-2 hover:ring-blue-300"
+              >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="md:col-span-1">
                     <Image
@@ -61,37 +63,31 @@ export default async function NewsPage() {
                       alt={item.title}
                       width={400}
                       height={300}
-                      className="w-full h-full object-cover aspect-video"
+                      className="w-full h-full object-cover rounded-t-xl md:rounded-l-xl md:rounded-r-none"
                     />
                   </div>
                   <div className="md:col-span-2 flex flex-col p-6">
-                    <CardHeader className="p-0 pb-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-sm px-2 py-1 bg-primary/10 text-primary rounded-md flex items-center">
-                          <Tag className="h-3 w-3 mr-1" />
-                          {item.category}
+                    <div className="mb-4">
+                      <div className="flex items-center gap-2 mb-2 text-slate-300">
+                        <span className="text-sm flex items-center">
+                          <Tag className="h-3 w-3 mr-1" /> {item.category}
                         </span>
-                        <span className="text-sm text-muted-foreground flex items-center">
-                          <Calendar className="h-3 w-3 mr-1" />
-                          {formatDate(item.publishedAt)}
+                        <span className="text-sm flex items-center">
+                          <Calendar className="h-3 w-3 mr-1" /> {formatDate(item.publishedAt)}
                         </span>
                       </div>
-                      <CardTitle className="text-xl">{item.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-0 pb-4 flex-grow">
-                      <p className="text-muted-foreground">{item.summary}</p>
-                    </CardContent>
-                    <CardFooter className="p-0 pt-2 flex justify-between items-center">
-                      <span className="text-sm text-muted-foreground">Автор: {item.author}</span>
-                      <Button asChild variant="ghost" className="gap-1">
-                        <Link href={`/news/${item.id}`}>
-                          Читать полностью <ArrowRight className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                    </CardFooter>
+                      <h2 className="text-xl font-bold drop-shadow">{item.title}</h2>
+                    </div>
+                    <p className="text-slate-200 flex-grow">{item.summary}</p>
+                    <div className="pt-2 flex justify-between items-center text-slate-300">
+                      <span className="text-sm">Автор: {item.author}</span>
+                      <Link href={`/news/${item.id}`} className="underline flex items-center gap-1 hover:text-blue-300">
+                        Читать полностью <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
         </TabsContent>
@@ -100,7 +96,10 @@ export default async function NewsPage() {
           <TabsContent key={category} value={category}>
             <div className="grid grid-cols-1 gap-8">
               {newsByCategory[category].map((item) => (
-                <Card key={item.id} className="overflow-hidden">
+                <div
+                  key={item.id}
+                  className="bg-gradient-to-br from-blue-700 to-purple-700 text-white rounded-xl shadow-xl overflow-hidden hover:scale-105 transition-transform duration-300 hover:ring-2 hover:ring-blue-300"
+                >
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="md:col-span-1">
                       <Image
@@ -108,37 +107,31 @@ export default async function NewsPage() {
                         alt={item.title}
                         width={400}
                         height={300}
-                        className="w-full h-full object-cover aspect-video"
+                        className="w-full h-full object-cover rounded-t-xl md:rounded-l-xl md:rounded-r-none"
                       />
                     </div>
                     <div className="md:col-span-2 flex flex-col p-6">
-                      <CardHeader className="p-0 pb-4">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="text-sm px-2 py-1 bg-primary/10 text-primary rounded-md flex items-center">
-                            <Tag className="h-3 w-3 mr-1" />
-                            {item.category}
+                      <div className="mb-4">
+                        <div className="flex items-center gap-2 mb-2 text-slate-300">
+                          <span className="text-sm flex items-center">
+                            <Tag className="h-3 w-3 mr-1" /> {item.category}
                           </span>
-                          <span className="text-sm text-muted-foreground flex items-center">
-                            <Calendar className="h-3 w-3 mr-1" />
-                            {formatDate(item.publishedAt)}
+                          <span className="text-sm flex items-center">
+                            <Calendar className="h-3 w-3 mr-1" /> {formatDate(item.publishedAt)}
                           </span>
                         </div>
-                        <CardTitle className="text-xl">{item.title}</CardTitle>
-                      </CardHeader>
-                      <CardContent className="p-0 pb-4 flex-grow">
-                        <p className="text-muted-foreground">{item.summary}</p>
-                      </CardContent>
-                      <CardFooter className="p-0 pt-2 flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">Автор: {item.author}</span>
-                        <Button asChild variant="ghost" className="gap-1">
-                          <Link href={`/news/${item.id}`}>
-                            Читать полностью <ArrowRight className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                      </CardFooter>
+                        <h2 className="text-xl font-bold drop-shadow">{item.title}</h2>
+                      </div>
+                      <p className="text-slate-200 flex-grow">{item.summary}</p>
+                      <div className="pt-2 flex justify-between items-center text-slate-300">
+                        <span className="text-sm">Автор: {item.author}</span>
+                        <Link href={`/news/${item.id}`} className="underline flex items-center gap-1 hover:text-blue-300">
+                          Читать полностью <ArrowRight className="h-4 w-4" />
+                        </Link>
+                      </div>
                     </div>
                   </div>
-                </Card>
+                </div>
               ))}
             </div>
           </TabsContent>
