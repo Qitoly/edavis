@@ -32,15 +32,14 @@ export default async function ServicePage({ params }: { params: { id: string } }
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-8">
       <Link href="/services" className="flex items-center text-slate-300 hover:text-white mb-6">
         <ArrowLeft className="mr-2 h-4 w-4" />
         Назад к списку услуг
       </Link>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <div className="bg-gradient-to-br from-blue-700 to-purple-700 text-white p-6 rounded-xl shadow-xl">
+      <div className="space-y-6">
+        <div className="bg-gradient-to-br from-indigo-700 to-purple-700 text-white p-6 rounded-xl shadow-xl">
             <div className="flex items-start gap-4 mb-6">
               <FileText className="w-12 h-12" />
               <div>
@@ -91,25 +90,33 @@ export default async function ServicePage({ params }: { params: { id: string } }
               </div>
             </div>
           </div>
-        </div>
 
-          <div>
-            <div className="bg-gradient-to-br from-blue-700 to-purple-700 text-white p-6 rounded-xl shadow-xl">
+
+        <div className="bg-gradient-to-br from-indigo-700 to-purple-700 text-white p-6 rounded-xl shadow-xl">
+
               <div className="mb-4">
                 <h3 className="text-xl font-bold drop-shadow">Получить услугу</h3>
                 <p className="text-slate-300">Выберите удобный способ получения услуги</p>
               </div>
+
+              <div className="border-t border-slate-600 my-6" />
               <div className="space-y-4">
-                <Button asChild className="w-full">
-                  <Link href={service.applyUrl ?? "#"} target="_blank" rel="noopener noreferrer">
-                    Подать заявление онлайн
-                  </Link>
-                </Button>
-                <Button asChild variant="outline" className="w-full">
-                  <Link href={settings?.question_link ?? "#"} target="_blank" rel="noopener noreferrer">
-                    Задать вопрос
-                  </Link>
-                </Button>
+                <Link
+                  href={service.applyUrl ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl mb-3 transition text-center"
+                >
+                  Подать заявление онлайн
+                </Link>
+                <Link
+                  href={settings?.question_link ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold py-3 rounded-xl transition text-center"
+                >
+                  Задать вопрос
+                </Link>
 
                 {service.centers.length > 0 && (
                   <div className="pt-4">
@@ -127,6 +134,8 @@ export default async function ServicePage({ params }: { params: { id: string } }
               </div>
             </div>
           </div>
-      </div>
+
+    </div>
+
   )
 }
