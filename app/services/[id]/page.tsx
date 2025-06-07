@@ -128,6 +128,5 @@ export default async function ServicePage({ params }: { params: { id: string } }
             </div>
           </div>
       </div>
-    </div>
   )
 }
