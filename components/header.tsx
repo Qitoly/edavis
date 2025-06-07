@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { ChevronDown } from "lucide-react"
 
@@ -8,27 +9,25 @@ export function Header() {
   const pathname = usePathname()
 
   return (
-    <header className="py-4 bg-[#e6f0fa]">
+    <header className="py-4">
       <div className="container mx-auto px-4 flex items-center justify-between">
-        <Link href="/" className="text-[#2d3748] text-3xl font-bold">
-          E-Davis
+        <Link href="/" className="flex items-center gap-2">
+          <Image src="/main.svg" alt="E-Davis" width={40} height={40} />
+          <span className="sr-only">E-Davis</span>
         </Link>
 
-        <nav className="flex items-center space-x-8">
-          <Link href="/services" className="text-[#2d3748]">
+        <nav className="flex items-center space-x-8 text-white">
+          <Link href="/services" className="hover:text-blue-400">
             Услуги
           </Link>
-          <Link href="/news" className="text-[#2d3748]">
+          <Link href="/news" className="hover:text-blue-400">
             Новости
           </Link>
-          <Link href="/news" className="text-[#2d3748]">
-            Новости
-          </Link>
-          <Link href="/jobs" className="text-[#2d3748]">
+          <Link href="/jobs" className="hover:text-blue-400">
             Вакансии
           </Link>
           <div className="relative group">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition-colors flex items-center gap-2">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow-md transition flex items-center gap-2">
               О правительстве
               <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />
             </button>
