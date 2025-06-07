@@ -34,7 +34,7 @@ export default function NewsPage() {
           .from("profiles")
           .select("role")
           .eq("id", sessionData.session.user.id)
-          .single()
+          .single<{ role: string }>()
 
         if (profileError) {
           console.error("Error fetching profile:", profileError)

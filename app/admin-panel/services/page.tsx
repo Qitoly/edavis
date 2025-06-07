@@ -32,7 +32,7 @@ export default function ServicesPage() {
           .from("profiles")
           .select("role")
           .eq("id", sessionData.session.user.id)
-          .single()
+          .single<{ role: string }>()
 
         if (profileError) {
           console.error("Error fetching profile:", profileError)

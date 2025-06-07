@@ -39,7 +39,22 @@ export default function EditServicePage({ params }: any) {
       try {
         const supabase = getSupabaseClient()
 
-        const { data, error } = await supabase.from("services").select("*").eq("id", id).single()
+        const { data, error } = await supabase
+          .from("services")
+          .select("*")
+          .eq("id", id)
+          .single<{
+            id: string
+            title: string
+            description: string
+            duration: string
+            requirements: string
+            procedure: string
+            department: string
+            cost: string
+            apply_url: string | null
+            centers: string[] | null
+          }>()
 
         if (error) {
           console.error(

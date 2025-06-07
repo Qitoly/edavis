@@ -35,7 +35,7 @@ export default function AuthGuard({ children, requiredRoles = ["owner", "admin",
           .from("profiles")
           .select("role")
           .eq("id", sessionData.session.user.id)
-          .single()
+          .single<{ role: string }>()
 
         if (profileError || !profile) {
           console.error("Error fetching profile:", profileError)
