@@ -26,7 +26,7 @@ export default function FaqAdminPage() {
           .from("profiles")
           .select("role")
           .eq("id", sessionData.session.user.id)
-          .single()
+          .single<{ role: string }>()
 
         if (profile) setUserRole(profile.role)
 
