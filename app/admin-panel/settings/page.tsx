@@ -32,7 +32,7 @@ export default function PortalSettingsPage() {
           .from("portal_settings")
           .select("*")
           .limit(1)
-          .single()
+          .single<{ question_link: string }>()
 
         if (!error && data) {
           setQuestionLink(data.question_link || "")

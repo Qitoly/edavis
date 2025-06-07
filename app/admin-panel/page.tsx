@@ -28,7 +28,7 @@ export default function AdminPanelPage() {
           .from("profiles")
           .select("*")
           .eq("id", sessionData.session.user.id)
-          .single()
+          .single<{ name: string | null; role: string }>()
 
         if (profile) {
           setUser({

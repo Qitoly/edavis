@@ -36,9 +36,9 @@ export default function Page({ params }: any) {
 
         const { data, error } = await supabase
           .from("faq")
-          .select<{ question: string; answer: string }>("question, answer")
+          .select("question, answer")
           .eq("id", id)
-          .single()
+          .single<{ question: string; answer: string }>()
 
         if (error || !data) {
           setError("Вопрос не найден")

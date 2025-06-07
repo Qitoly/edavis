@@ -155,7 +155,16 @@ export async function getUserById(userId: string) {
   try {
     const adminClient = createAdminClient()
 
-    const { data: profile, error } = await adminClient.from("profiles").select("*").eq("id", userId).single()
+    const { data: profile, error } = await adminClient
+      .from("profiles")
+      .select("*")
+      .eq("id", userId)
+      .single<{
+        id: string
+        name: string | null
+        email: string | null
+        role: string
+      }>()
 
     if (error) {
       console.error("Error fetching user:", error)

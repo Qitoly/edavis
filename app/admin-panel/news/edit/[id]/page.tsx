@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { AlertCircle, ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
@@ -35,7 +34,17 @@ export default function EditNewsPage({ params }: any) {
       try {
         const supabase = getSupabaseClient()
 
-        const { data, error } = await supabase.from("news").select("*").eq("id", id).single()
+        const { data, error } = await supabase
+          .from("news")
+          .select("*")
+          .eq("id", id)
+          .single<{
+            title: string
+            summary: string
+            content: string
+            author: string
+            image_url: string | null
+          }>()
 
         if (error) {
           console.error(
@@ -75,15 +84,14 @@ export default function EditNewsPage({ params }: any) {
 
       const { error } = await supabase
         .from("news")
-        .update({
-          title,
-          summary,
-          content,
-          author,
-          category,
-          image_url: imageUrl || null,
-          updated_at: new Date().toISOString(),
-        })
+          .update({
+            title,
+            summary,
+            content,
+            author,
+            image_url: imageUrl || null,
+            updated_at: new Date().toISOString(),
+          })
         .eq("id", id)
 
       if (error) {

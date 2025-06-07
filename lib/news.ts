@@ -19,7 +19,7 @@ export async function getLatestNews(limit = 5): Promise<News[]> {
     }
 
     // Преобразуем snake_case из БД в camelCase для нашего приложения
-    return data.map((item) => ({
+    return data.map((item: any) => ({
       id: item.id,
       title: item.title,
       summary: item.summary,
@@ -82,7 +82,7 @@ export async function getAllNews(): Promise<News[]> {
     }
 
     // Преобразуем snake_case из БД в camelCase
-    allNewsCache = data.map((item) => ({
+    allNewsCache = data.map((item: any) => ({
       id: item.id,
       title: item.title,
       summary: item.summary,
