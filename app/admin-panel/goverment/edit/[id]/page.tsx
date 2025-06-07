@@ -110,7 +110,7 @@ export default function EditGovernmentMemberPage({ params }: any) {
         description: "Информация о члене правительства обновлена",
       })
 
-      router.push("/admin-panel/government")
+      router.push("/admin-panel/goverment")
       router.refresh()
     } catch (error: any) {
       const message =
@@ -207,7 +207,7 @@ export default function EditGovernmentMemberPage({ params }: any) {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => router.push("/admin-panel/government")}
+                  onClick={() => router.push("/admin-panel/goverment")}
                   disabled={isSubmitting}
                 >
                   Отмена

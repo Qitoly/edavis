@@ -64,7 +64,7 @@ export default function CreateGovernmentMemberPage() {
         description: "Член правительства успешно добавлен",
       })
 
-      router.push("/admin-panel/government")
+      router.push("/admin-panel/goverment")
       router.refresh()
     } catch (error: any) {
       console.error("Error creating government member:", error)
@@ -150,7 +150,7 @@ export default function CreateGovernmentMemberPage() {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => router.push("/admin-panel/government")}
+                  onClick={() => router.push("/admin-panel/goverment")}
                   disabled={isSubmitting}
                 >
                   Отмена
