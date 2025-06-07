@@ -3,12 +3,12 @@
 import { getPopularServices } from "@/lib/services"
 import ServiceCard from "@/components/service-card"
 import Image from "next/image"
-import { useState, useRef, type FormEvent } from "react"
+import { useState, useRef, useEffect, type FormEvent, type ReactNode } from "react"
 import Link from "next/link"
-import { searchSite } from "@/lib/search"
+import { searchSite, type SearchResult } from "@/lib/search"
 
 type Message = {
-  text: string
+  text: ReactNode
   isUser: boolean
 }
 
@@ -17,9 +17,15 @@ function ChatComponent() {
     { text: "Здравствуйте! Я виртуальный помощник портала E-Davis. Чем могу помочь?", isUser: false },
   ])
   const [inputValue, setInputValue] = useState("")
-  const [chatHeight, setChatHeight] = useState(300)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [isExpanded, setIsExpanded] = useState(false)
+  const chatRef = useRef<HTMLDivElement>(null)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight
+    }
+  }, [messages])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -31,35 +37,47 @@ function ChatComponent() {
     setMessages(newMessages)
     setInputValue("")
 
-    if (newMessages.length > 3 && chatHeight < 500) {
-      setChatHeight((prev) => prev + 50)
-    }
 
     setLoading(true)
 
     try {
       const results = await searchSite(userText)
-      const answer =
-        results.length > 0
-          ? `Вот что я нашел:\n- ${results.slice(0, 5).join("\n- ")}`
-          : "К сожалению, я ничего не нашел."
-
-      setMessages((prev) => [...prev, { text: answer, isUser: false }])
+      if (results.length > 0) {
+        const suggestions = (
+          <div>
+            <p className="text-slate-300 mb-2">Возможно, вы имели в виду:</p>
+            <div className="flex flex-col gap-2">
+              {results.slice(0, 3).map((item: SearchResult) => (
+                <a
+                  key={item.id}
+                  href={item.link}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md shadow transition"
+                >
+                  {item.title}
+                </a>
+              ))}
+            </div>
+          </div>
+        )
+        setMessages((prev) => [...prev, { text: suggestions, isUser: false }])
+        setIsExpanded(true)
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          { text: "К сожалению, я ничего не нашел.", isUser: false },
+        ])
+      }
     } catch (error) {
       console.error("chat search error", error)
       setMessages((prev) => [...prev, { text: "Произошла ошибка при поиске", isUser: false }])
     } finally {
       setLoading(false)
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }
   }
 
   return (
     <div className="w-96 transition-all duration-300">
-      <div
-        className="bg-slate-800 text-white rounded-xl p-4 shadow-lg mb-4"
-        style={{ maxHeight: `${chatHeight}px` }}
-      >
+      <div className="bg-slate-800 text-white rounded-xl p-4 shadow-lg mb-4">
 
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-bold text-lg flex items-center">
@@ -79,7 +97,10 @@ function ChatComponent() {
           </h3>
         </div>
 
-        <div className="overflow-y-auto space-y-3 mb-4" style={{ maxHeight: `${chatHeight - 120}px` }}>
+        <div
+          ref={chatRef}
+          className={`space-y-3 mb-4 transition-all duration-300 overflow-y-auto max-h-[16rem] ${isExpanded && "max-h-[28rem]"}`}
+        >
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -87,7 +108,7 @@ function ChatComponent() {
                 msg.isUser ? "bg-blue-600 text-white ml-auto" : "bg-slate-700 text-white mr-auto"
               } rounded-lg p-3 max-w-[80%] animate-in fade-in slide-in-from-bottom-2`}
             >
-              <p className="text-sm">{msg.text}</p>
+              <div className="text-sm">{msg.text}</div>
             </div>
           ))}
           {loading && (
@@ -96,7 +117,6 @@ function ChatComponent() {
               <div className="h-4 w-4 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
             </div>
           )}
-          <div ref={messagesEndRef} />
         </div>
 
         <form onSubmit={handleSubmit} className="flex items-center gap-2">
