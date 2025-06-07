@@ -11,6 +11,7 @@ export function Header() {
   return (
     <header className="py-4">
       <div className="container mx-auto px-4 flex items-center justify-between">
+
         <Link href="/" className="flex items-center gap-2">
           <Image src="/main.svg" alt="E-Davis" width={40} height={40} />
           <span className="sr-only">E-Davis</span>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 
+import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Clock, FileText, Building, DollarSign, FileCheck, ArrowLeft } from "lucide-react"
 import Link from "next/link"
@@ -36,6 +37,7 @@ export default async function ServicePage({ params }: { params: { id: string } }
         <ArrowLeft className="mr-2 h-4 w-4" />
         Назад к списку услуг
       </Link>
+
       <div className="space-y-6">
         <div className="bg-gradient-to-br from-indigo-700 to-purple-700 text-white p-6 rounded-xl shadow-xl">
             <div className="flex items-start gap-4 mb-6">
@@ -89,11 +91,14 @@ export default async function ServicePage({ params }: { params: { id: string } }
             </div>
           </div>
 
+
         <div className="bg-gradient-to-br from-indigo-700 to-purple-700 text-white p-6 rounded-xl shadow-xl">
+
               <div className="mb-4">
                 <h3 className="text-xl font-bold drop-shadow">Получить услугу</h3>
                 <p className="text-slate-300">Выберите удобный способ получения услуги</p>
               </div>
+
               <div className="border-t border-slate-600 my-6" />
               <div className="space-y-4">
                 <Link
@@ -129,6 +134,8 @@ export default async function ServicePage({ params }: { params: { id: string } }
               </div>
             </div>
           </div>
+
     </div>
+
   )
 }
