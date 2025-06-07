@@ -18,24 +18,15 @@ export function Footer() {
                   Все услуги
                 </Link>
               </li>
-              <li>
-                <Link href="/services/popular" className="hover:text-blue-400 text-slate-300">
-                  Популярные услуги
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/new" className="hover:text-blue-400 text-slate-300">
-                  Новые услуги
-                </Link>
-              </li>
+
             </ul>
           </div>
           <div>
             <h4 className="font-medium mb-4 text-slate-300">Информация</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/about" className="hover:text-blue-400 text-slate-300">
-                  О правительстве
+                <Link href="/goverment/capitol-plan" className="hover:text-blue-400 text-slate-300">
+                  План капитолия
                 </Link>
               </li>
               <li>
@@ -48,11 +39,7 @@ export function Footer() {
                   Вакансии
                 </Link>
               </li>
-              <li>
-                <Link href="/important" className="hover:text-blue-400 text-slate-300">
-                  Важная информация
-                </Link>
-              </li>
+
             </ul>
           </div>
           <div>
@@ -68,19 +55,19 @@ export function Footer() {
                   Контакты
                 </Link>
               </li>
-              <li>
-                <Link href="/feedback" className="hover:text-blue-400 text-slate-300">
-                  Обратная связь
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
         <div className="mt-8 flex justify-center drop-shadow-2xl">
-          <Image src="/images/robot-assistant.svg" alt="E-Davis Robot" width={40} height={40} />
+          <Image src="/main.svg" alt="E-Davis Robot" width={80} height={80} />
         </div>
         <div className="mt-8 text-center text-slate-300">
-          <p className="text-sm">© 2025 E-Davis. Все права защищены.</p>
+<p className="text-sm">
+  © 2025 E-Davis. Все права защищены. Разработано Qitoly. По тех. вопросам и заказам{" "}
+  <a href="https://t.me/QitolyAsk" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+    https://t.me/QitolyAsk
+  </a>
+</p>
         </div>
       </div>
     </footer>
