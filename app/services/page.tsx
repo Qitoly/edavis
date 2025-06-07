@@ -31,8 +31,8 @@ export default async function ServicesPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Государственные услуги</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-3xl font-bold text-white drop-shadow mb-2">Государственные услуги</h1>
+          <p className="text-slate-300">
             Полный список государственных услуг, предоставляемых порталом E-Davis
           </p>
         </div>
@@ -40,7 +40,7 @@ export default async function ServicesPage() {
       </div>
 
       <Tabs defaultValue="all" className="w-full">
-        <TabsList className="mb-8 flex flex-wrap h-auto">
+        <TabsList className="mb-8 flex flex-wrap h-auto bg-slate-800/50 rounded-lg p-1">
           <TabsTrigger value="all">Все услуги</TabsTrigger>
           {departments.map((department) => (
             <TabsTrigger key={department} value={department}>

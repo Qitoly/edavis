@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
 
 export const metadata: Metadata = {
   title: "План капитолия | E-Davis",
@@ -65,38 +64,37 @@ export default function CapitolPlanPage() {
 
   return (
     <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">План капитолия</h1>
+      <h1 className="text-3xl font-bold text-white drop-shadow mb-8 text-center">План капитолия</h1>
 
       <div className="space-y-12">
         {floorPlans.map((floor) => (
-          <Card key={floor.id} className="overflow-hidden">
-            <CardContent className="p-0">
-              <div className="flex flex-col lg:flex-row">
-                <div className="lg:w-1/2 relative">
-                  <div className="aspect-[3/2] relative">
-                    <Image
-                      src={floor.image || "/placeholder.svg"}
-                      alt={`План ${floor.title}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-                <div className="lg:w-1/2 p-6">
-                  <h2 className="text-2xl font-bold mb-4">{floor.title}</h2>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <ul className="space-y-2">
-                      {floor.rooms.map((room, index) => (
-                        <li key={index} className="flex">
-                          <span className="font-medium">{room}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+          <div
+            key={floor.id}
+            className="bg-gradient-to-br from-blue-700 to-purple-700 text-white rounded-xl shadow-xl overflow-hidden"
+          >
+            <div className="flex flex-col lg:flex-row">
+              <div className="lg:w-1/2 relative">
+                <div className="aspect-[3/2] relative">
+                  <Image
+                    src={floor.image || "/placeholder.svg"}
+                    alt={`План ${floor.title}`}
+                    fill
+                    className="object-cover rounded-t-xl lg:rounded-r-none lg:rounded-l-xl"
+                  />
                 </div>
               </div>
-            </CardContent>
-          </Card>
+              <div className="lg:w-1/2 p-6">
+                <h2 className="text-2xl font-bold mb-4 drop-shadow">{floor.title}</h2>
+                <ul className="space-y-2 text-slate-200">
+                  {floor.rooms.map((room, index) => (
+                    <li key={index} className="flex">
+                      <span>{room}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </div>
