@@ -118,7 +118,7 @@ export default function AdminSidebar({ className }: SidebarProps) {
                   isCollapsed && "justify-center",
                 )}
               >
-                <FileText className="h-4 w-4" />
+                <FileText className="w-12 h-12" />
                 {!isCollapsed && <span>Услуги</span>}
               </Link>
               <Link
