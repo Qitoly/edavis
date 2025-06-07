@@ -38,7 +38,9 @@ export default function DeleteFaqButton({ id }: DeleteFaqButtonProps) {
         throw error
       }
 
+      // Provide a unique id for the toast to satisfy the required Toast type
       toast({
+        id: crypto.randomUUID(),
         title: "Успешно",
         description: "Вопрос удален",
       })
@@ -47,6 +49,7 @@ export default function DeleteFaqButton({ id }: DeleteFaqButtonProps) {
     } catch (error: any) {
       console.error("Error deleting faq:", error)
       toast({
+        id: crypto.randomUUID(),
         title: "Ошибка",
         description: error.message || "Не удалось удалить вопрос",
         variant: "destructive",
