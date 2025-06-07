@@ -20,8 +20,8 @@ import { AlertCircle, ArrowLeft, Loader2 } from "lucide-react"
 import AuthGuard from "@/components/auth-guard"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 
-export default function Page({ params }: { params: { id: string } }) {
-  const { id } = params
+export default function Page({ params }: any) {
+  const { id } = params as { id: string }
   const [question, setQuestion] = useState("")
   const [answer, setAnswer] = useState("")
   const [error, setError] = useState<string | null>(null)
