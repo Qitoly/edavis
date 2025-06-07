@@ -14,6 +14,7 @@ export function Header() {
 
         <Link href="/" className="flex items-center gap-2">
           <Image src="/main.svg" alt="E-Davis" width={172} height={172} />
+
           <span className="sr-only">E-Davis</span>
         </Link>
 
@@ -49,33 +50,6 @@ export function Header() {
                 </Link>
                 <Link href="treasury" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   Состояние и динамика казны
-                </Link>
-                <Link href="/goverment/news" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                  Новости Правительства
-                </Link>
-                <Link
-                  href="/goverment/treasury-services"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Услуги Государственного Казначейства (Все лицензии)
-                </Link>
-                <Link
-                  href="/goverment/advocacy-services"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Услуги Адвокатуры (Помощь в написании исков/жалоб в огп)
-                </Link>
-                <Link
-                  href="/goverment/dmo-services"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Услуги ДМО (Провизия)
-                </Link>
-                <Link
-                  href="/goverment/legislative-initiative"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Подача законодательной инициативы в сенат от граждан
                 </Link>
               </div>
             </div>
