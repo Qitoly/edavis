@@ -13,7 +13,7 @@ export function Header() {
       <div className="container mx-auto px-4 flex items-center justify-between">
 
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/main.svg" alt="E-Davis" width={40} height={40} />
+          <Image src="/main.svg" alt="E-Davis" width={172} height={172} />
           <span className="sr-only">E-Davis</span>
         </Link>
 
