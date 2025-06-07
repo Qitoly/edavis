@@ -51,7 +51,9 @@ export default function CreateGovernmentMemberPage() {
     try {
       const supabase = getSupabaseClient()
 
-      const { error } = await supabase.from("government_members").insert([formData])
+      const { error } = await supabase
+        .from("government_members")
+        .insert([formData as any])
 
       if (error) {
         throw error

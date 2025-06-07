@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Loader2 } from "lucide-react"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
-import type { GovernmentMemberFormData } from "@/types/government-member"
+import type { GovernmentMemberFormData, GovernmentMember } from "@/types/government-member"
 import AuthGuard from "@/components/auth-guard"
 
 export default function EditGovernmentMemberPage({ params }: any) {
@@ -35,7 +35,11 @@ export default function EditGovernmentMemberPage({ params }: any) {
     const fetchMember = async () => {
       try {
         const supabase = getSupabaseClient()
-        const { data, error } = await supabase.from("government_members").select("*").eq("id", id).single()
+        const { data, error } = await supabase
+          .from("government_members")
+          .select("*")
+          .eq("id", id)
+          .single<GovernmentMember>()
 
         if (error) {
           throw error
@@ -92,7 +96,10 @@ export default function EditGovernmentMemberPage({ params }: any) {
     try {
       const supabase = getSupabaseClient()
 
-      const { error } = await supabase.from("government_members").update(formData).eq("id", id)
+      const { error } = await supabase
+        .from("government_members")
+        .update(formData as any)
+        .eq("id", id)
 
       if (error) {
         throw error

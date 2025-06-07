@@ -15,6 +15,7 @@ import { AlertCircle, ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
+import type { Job } from "@/types/job"
 
 export default function EditJobPage({ params }: any) {
 
@@ -37,7 +38,11 @@ export default function EditJobPage({ params }: any) {
       try {
         const supabase = getSupabaseClient()
 
-        const { data, error } = await supabase.from("jobs").select("*").eq("id", id).single()
+        const { data, error } = await supabase
+          .from("jobs")
+          .select("*")
+          .eq("id", id)
+          .single<Job>()
 
         if (error) {
           console.error(
