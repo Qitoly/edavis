@@ -48,7 +48,7 @@ export function Header() {
                 >
                   Состав Правительства
                 </Link>
-                <Link href="treasury" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                <Link href="/treasury" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                   Состояние и динамика казны
                 </Link>
               </div>

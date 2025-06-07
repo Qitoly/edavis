@@ -61,7 +61,7 @@ async function GovernmentMembersTable() {
               <TableCell>{member.order_number}</TableCell>
               <TableCell className="text-right">
                 <div className="flex justify-end gap-1">
-                  <Link href={`/admin-panel/government/edit/${member.id}`}>
+                  <Link href={`/admin-panel/goverment/edit/${member.id}`}>
                     <Button variant="ghost" size="icon">
                       <Pencil className="h-4 w-4" />
                       <span className="sr-only">Редактировать</span>
@@ -84,7 +84,7 @@ export default function GovernmentMembersPage() {
       <div className="container mx-auto py-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Состав правительства</h1>
-          <Link href="/admin-panel/government/create">
+          <Link href="/admin-panel/goverment/create">
             <Button>
               <PlusCircle className="h-4 w-4 mr-2" />
               Добавить
