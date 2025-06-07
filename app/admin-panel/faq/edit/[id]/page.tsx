@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { use, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -14,8 +14,8 @@ import { getSupabaseClient } from "@/lib/supabase/singleton-client"
 import AuthGuard from "@/components/auth-guard"
 
 
-export default function EditFaqPage({ params }: { params: { id: string } }) {
-  const { id } = params
+export default function EditFaqPage({ params }: any) {
+  const { id } = use(params) as { id: string }
   const [question, setQuestion] = useState("")
   const [answer, setAnswer] = useState("")
   const [error, setError] = useState<string | null>(null)
