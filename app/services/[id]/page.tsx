@@ -8,8 +8,9 @@ import Link from "next/link"
 import { getServiceById } from "@/lib/services"
 import { getPortalSettings } from "@/lib/settings"
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const service = await getServiceById(params.id)
+export async function generateMetadata({ params }: any): Promise<Metadata> {
+  const { id } = await params
+  const service = await getServiceById(id)
 
   if (!service) {
     return {
@@ -23,8 +24,9 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   }
 }
 
-export default async function ServicePage({ params }: { params: { id: string } }) {
-  const service = await getServiceById(params.id)
+export default async function ServicePage({ params }: any) {
+  const { id } = await params
+  const service = await getServiceById(id)
   const settings = await getPortalSettings()
 
   if (!service) {

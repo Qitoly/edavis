@@ -23,7 +23,7 @@ export async function login(prevState: any, formData: FormData) {
     }
   }
 
-  const supabase = createClient()
+  const supabase = await createClient()
 
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -51,12 +51,13 @@ export async function login(prevState: any, formData: FormData) {
 }
 
 export async function logout() {
-  const supabase = createClient()
+  const supabase = await createClient()
   await supabase.auth.signOut()
 
   // Очищаем куки для полного выхода
-  cookies().delete("sb-access-token")
-  cookies().delete("sb-refresh-token")
+  const cookieStore = await cookies()
+  cookieStore.delete("sb-access-token")
+  cookieStore.delete("sb-refresh-token")
 
   return {
     success: true,

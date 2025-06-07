@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server"
 import type { GovernmentMember } from "@/types/government-member"
 
 export async function getGovernmentMembers(): Promise<GovernmentMember[]> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data, error } = await supabase
     .from("government_members")
@@ -18,7 +18,7 @@ export async function getGovernmentMembers(): Promise<GovernmentMember[]> {
 }
 
 export async function getGovernmentMemberById(id: number): Promise<GovernmentMember | null> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data, error } = await supabase.from("government_members").select("*").eq("id", id).single()
 
@@ -31,7 +31,7 @@ export async function getGovernmentMemberById(id: number): Promise<GovernmentMem
 }
 
 export async function getGovernor(): Promise<GovernmentMember | null> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data, error } = await supabase.from("government_members").select("*").eq("is_governor", true).single()
 
@@ -44,7 +44,7 @@ export async function getGovernor(): Promise<GovernmentMember | null> {
 }
 
 export async function getNonGovernorMembers(): Promise<GovernmentMember[]> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data, error } = await supabase
     .from("government_members")

@@ -13,7 +13,7 @@ export type User = {
 
 // Получение текущего пользователя
 export async function getCurrentUser(): Promise<User | null> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   try {
     const {
@@ -85,7 +85,7 @@ export function canPublishContent(role: UserRole): boolean {
 
 // Регистрация нового пользователя (доступно только для владельца)
 export async function createUser(email: string, password: string, name: string, role: UserRole) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { data, error } = await supabase.auth.admin.createUser({
     email,
@@ -126,7 +126,7 @@ export async function logAdminAction(
   entityId: string,
   details?: Record<string, any>,
 ) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   const { error } = await supabase.from("admin_actions").insert({
     user_id: userId,

@@ -9,7 +9,8 @@ export const metadata: Metadata = {
 }
 
 export default async function EditTreasuryPage({ params }: any) {
-  const id = Number.parseInt(params.id)
+  const { id: idStr } = await params
+  const id = Number.parseInt(idStr)
 
   if (isNaN(id)) {
     return notFound()
